@@ -4,6 +4,8 @@ import '../../../core/data/dummy_data.dart';
 import '../../../core/data/models/profile_option_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../benefits/screens/benefits_screen.dart';
+import '../../subscription/screens/subscription_screen.dart';
+import '../../subscription/subscription_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -12,6 +14,13 @@ class ProfileScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const BenefitsScreen()),
+    );
+  }
+
+  void _openSubscription(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SubscriptionScreen()),
     );
   }
 
@@ -166,6 +175,66 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildSubscriptionBox(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: SubscriptionController.isSubscribed,
+      builder: (context, isSubscribed, _) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isSubscribed
+                ? Colors.green.withOpacity(0.12)
+                : Colors.orange.withOpacity(0.12),
+            borderRadius: AppUi.brMd,
+            border: Border.all(
+              color: isSubscribed ? Colors.green : Colors.orange,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    isSubscribed
+                        ? Icons.verified
+                        : Icons.workspace_premium_outlined,
+                    color: isSubscribed ? Colors.green : Colors.orange,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      isSubscribed
+                          ? 'الاشتراك مفعل'
+                          : 'الاشتراك غير مفعل',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isSubscribed ? Colors.green : Colors.orange,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                isSubscribed
+                    ? 'يمكنك الآن استخدام الميزات المدفوعة والشراء داخل التطبيق.'
+                    : 'يجب تفعيل الاشتراك أولًا بقيمة 10 جنيه لاستخدام الشراء داخل التطبيق.',
+                style: const TextStyle(height: 1.5),
+              ),
+              const SizedBox(height: 14),
+              if (!isSubscribed)
+                FilledButton(
+                  onPressed: () => _openSubscription(context),
+                  child: const Text('تفعيل الاشتراك'),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildStatusBox(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -207,6 +276,8 @@ class ProfileScreen extends StatelessWidget {
         padding: AppUi.pagePadding,
         children: [
           _buildHeader(context),
+          const SizedBox(height: AppUi.gapMd),
+          _buildSubscriptionBox(context),
           const SizedBox(height: AppUi.gapMd),
           _buildStatusBox(context),
           const SizedBox(height: AppUi.gapMd),
