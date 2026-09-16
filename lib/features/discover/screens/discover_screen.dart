@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/data/dummy_data.dart';
+import '../../../core/data/models/discover_profile_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../benefits/screens/benefits_screen.dart';
 import '../../interactions/screens/interactions_screen.dart';
@@ -42,14 +44,10 @@ class DiscoverScreen extends StatelessWidget {
 
   Widget _buildProfileCard(
     BuildContext context, {
-    required String name,
-    required int age,
-    required String city,
-    required String match,
-    required List<String> tags,
-    required List<Color> gradientColors,
+    required DiscoverProfileModel profile,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final gradientColors = profile.gradientColors.map((e) => Color(e)).toList();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 18),
@@ -98,7 +96,7 @@ class DiscoverScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  '$match تطابق',
+                  '${profile.match} تطابق',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -108,7 +106,7 @@ class DiscoverScreen extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              '$name، $age',
+              '${profile.name}، ${profile.age}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
@@ -117,7 +115,7 @@ class DiscoverScreen extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              city,
+              profile.city,
               style: const TextStyle(
                 color: Colors.white70,
                 fontSize: 14,
@@ -127,7 +125,7 @@ class DiscoverScreen extends StatelessWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: tags.map((tag) {
+              children: profile.tags.map((tag) {
                 return Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -258,6 +256,8 @@ class DiscoverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profiles = DummyData.discoverProfiles;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('اكتشف'),
@@ -293,41 +293,11 @@ class DiscoverScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppUi.gapMd),
-          _buildProfileCard(
-            context,
-            name: 'سارة',
-            age: 24,
-            city: 'القاهرة',
-            match: '92%',
-            tags: ['رياضة', 'سفر', 'قهوة'],
-            gradientColors: const [
-              Color(0xFF8E7CFF),
-              Color(0xFF5C4DCC),
-            ],
-          ),
-          _buildProfileCard(
-            context,
-            name: 'ليان',
-            age: 22,
-            city: 'الإسكندرية',
-            match: '88%',
-            tags: ['قراءة', 'موسيقى', 'تصوير'],
-            gradientColors: const [
-              Color(0xFFFF8FB2),
-              Color(0xFFCC5C7A),
-            ],
-          ),
-          _buildProfileCard(
-            context,
-            name: 'نور',
-            age: 25,
-            city: 'الجيزة',
-            match: '84%',
-            tags: ['أفلام', 'تقنية', 'رسم'],
-            gradientColors: const [
-              Color(0xFF57C7B6),
-              Color(0xFF2D8F83),
-            ],
+          ...profiles.map(
+            (profile) => _buildProfileCard(
+              context,
+              profile: profile,
+            ),
           ),
         ],
       ),
