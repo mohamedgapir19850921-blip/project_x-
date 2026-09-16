@@ -8,11 +8,17 @@ import '../../benefits/screens/benefits_screen.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  void _openScreen(BuildContext context, Widget screen) {
+  void _openBenefits(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => screen),
+      MaterialPageRoute(builder: (_) => const BenefitsScreen()),
     );
+  }
+
+  void _handleOptionTap(BuildContext context, ProfileOptionModel option) {
+    if (option.title == 'إدارة المزايا') {
+      _openBenefits(context);
+    }
   }
 
   Widget _buildHeader(BuildContext context) {
@@ -153,11 +159,7 @@ class ProfileScreen extends StatelessWidget {
         children: options.map((option) {
           return _buildOptionTile(
             option: option,
-            onTap: () {
-              if (option.title == 'إدارة المزايا') {
-                _openScreen(context, const BenefitsScreen());
-              }
-            },
+            onTap: () => _handleOptionTap(context, option),
           );
         }).toList(),
       ),
@@ -196,7 +198,7 @@ class ProfileScreen extends StatelessWidget {
         title: const Text('حسابي'),
         actions: [
           IconButton(
-            onPressed: () => _openScreen(context, const BenefitsScreen()),
+            onPressed: () => _openBenefits(context),
             icon: const Icon(Icons.workspace_premium_outlined),
           ),
         ],
