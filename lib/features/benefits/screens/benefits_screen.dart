@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/data/dummy_data.dart';
+import '../../../core/data/models/benefit_plan_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../discover/screens/discover_screen.dart';
 import '../../profile/screens/profile_screen.dart';
@@ -84,21 +86,17 @@ class BenefitsScreen extends StatelessWidget {
   }
 
   Widget _buildPlanCard({
-    required String title,
-    required String price,
-    required String subtitle,
-    required List<String> features,
-    required bool highlighted,
+    required BenefitPlanModel plan,
     required VoidCallback onPressed,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 18),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: highlighted ? const Color(0xFF6C63FF) : null,
+        color: plan.highlighted ? const Color(0xFF6C63FF) : null,
         borderRadius: AppUi.brXl,
         border: Border.all(
-          color: highlighted
+          color: plan.highlighted
               ? const Color(0xFF6C63FF)
               : Colors.grey.withOpacity(0.25),
           width: 1.2,
@@ -107,7 +105,7 @@ class BenefitsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (highlighted)
+          if (plan.highlighted)
             Container(
               margin: const EdgeInsets.only(bottom: 14),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -124,32 +122,32 @@ class BenefitsScreen extends StatelessWidget {
               ),
             ),
           Text(
-            title,
+            plan.title,
             style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.bold,
-              color: highlighted ? Colors.white : null,
+              color: plan.highlighted ? Colors.white : null,
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            subtitle,
+            plan.subtitle,
             style: TextStyle(
               fontSize: 13,
-              color: highlighted ? Colors.white70 : Colors.grey,
+              color: plan.highlighted ? Colors.white70 : Colors.grey,
             ),
           ),
           const SizedBox(height: 16),
           Text(
-            price,
+            plan.price,
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: highlighted ? Colors.white : null,
+              color: plan.highlighted ? Colors.white : null,
             ),
           ),
           const SizedBox(height: 16),
-          ...features.map(
+          ...plan.features.map(
             (feature) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
@@ -157,14 +155,16 @@ class BenefitsScreen extends StatelessWidget {
                   Icon(
                     Icons.check_circle,
                     size: 20,
-                    color: highlighted ? Colors.white : const Color(0xFF6C63FF),
+                    color: plan.highlighted
+                        ? Colors.white
+                        : const Color(0xFF6C63FF),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       feature,
                       style: TextStyle(
-                        color: highlighted ? Colors.white : null,
+                        color: plan.highlighted ? Colors.white : null,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -180,9 +180,9 @@ class BenefitsScreen extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor:
-                    highlighted ? Colors.white : const Color(0xFF6C63FF),
+                    plan.highlighted ? Colors.white : const Color(0xFF6C63FF),
                 foregroundColor:
-                    highlighted ? const Color(0xFF6C63FF) : Colors.white,
+                    plan.highlighted ? const Color(0xFF6C63FF) : Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -223,6 +223,7 @@ class BenefitsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final softPrimary = AppUi.softPrimary(context);
     final softSecondary = AppUi.softNeutral(context);
+    final plans = DummyData.benefitPlans;
 
     return Scaffold(
       appBar: AppBar(
@@ -265,43 +266,17 @@ class BenefitsScreen extends StatelessWidget {
             style: AppUi.sectionTitleStyle,
           ),
           const SizedBox(height: 14),
-          _buildPlanCard(
-            title: 'Basic',
-            price: '49 EGP',
-            subtitle: 'للاستخدام الخفيف والبداية',
-            features: const [
-              'ظهور محسّن لفترة محدودة',
-              'بعض أدوات التفاعل الإضافية',
-              'أولوية بسيطة داخل الاكتشاف',
-            ],
-            highlighted: false,
-            onPressed: () => _openScreen(context, const DiscoverScreen()),
-          ),
-          _buildPlanCard(
-            title: 'Plus',
-            price: '99 EGP',
-            subtitle: 'أفضل توازن بين السعر والمزايا',
-            features: const [
-              'ظهور أقوى داخل الاكتشاف',
-              'مزايا تفاعل محسّنة',
-              'أولوية أفضل في الوصول',
-              'شارات ومؤشرات حساب أفضل',
-            ],
-            highlighted: true,
-            onPressed: () => _openScreen(context, const ProfileScreen()),
-          ),
-          _buildPlanCard(
-            title: 'Premium',
-            price: '149 EGP',
-            subtitle: 'أعلى تجربة متاحة داخل التطبيق',
-            features: const [
-              'أقوى ظهور متاح',
-              'أفضلية كاملة في الاكتشاف',
-              'أدوات مميزة إضافية',
-              'تجربة حساب أكثر احترافية',
-            ],
-            highlighted: false,
-            onPressed: () => _openScreen(context, const ProfileScreen()),
+          ...plans.map(
+            (plan) => _buildPlanCard(
+              plan: plan,
+              onPressed: () {
+                if (plan.title == 'Basic') {
+                  _openScreen(context, const DiscoverScreen());
+                } else {
+                  _openScreen(context, const ProfileScreen());
+                }
+              },
+            ),
           ),
           const SizedBox(height: 8),
           _buildInfoBox(context),
