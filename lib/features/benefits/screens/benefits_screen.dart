@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_ui.dart';
+import '../../discover/screens/discover_screen.dart';
+import '../../profile/screens/profile_screen.dart';
+
 class BenefitsScreen extends StatelessWidget {
   const BenefitsScreen({super.key});
+
+  void _openScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
 
   Widget _buildHeaderCard(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
@@ -9,7 +20,7 @@ class BenefitsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppUi.brXl,
         gradient: LinearGradient(
           colors: [
             primary,
@@ -53,7 +64,7 @@ class BenefitsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: AppUi.brMd,
       ),
       child: Row(
         children: [
@@ -78,13 +89,14 @@ class BenefitsScreen extends StatelessWidget {
     required String subtitle,
     required List<String> features,
     required bool highlighted,
+    required VoidCallback onPressed,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 18),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: highlighted ? const Color(0xFF6C63FF) : null,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppUi.brXl,
         border: Border.all(
           color: highlighted
               ? const Color(0xFF6C63FF)
@@ -176,7 +188,7 @@ class BenefitsScreen extends StatelessWidget {
                 ),
                 elevation: 0,
               ),
-              onPressed: () {},
+              onPressed: onPressed,
               child: const Text(
                 'اختيار الباقة',
                 style: TextStyle(
@@ -191,15 +203,11 @@ class BenefitsScreen extends StatelessWidget {
   }
 
   Widget _buildInfoBox(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withOpacity(0.06)
-            : Colors.black.withOpacity(0.04),
-        borderRadius: BorderRadius.circular(18),
+        color: AppUi.softNeutral(context),
+        borderRadius: AppUi.brMd,
       ),
       child: const Text(
         'جميع المزايا والباقات تُستخدم داخل التطبيق فقط، ولا يوجد سحب أموال أو مكاسب نقدية مباشرة.',
@@ -213,28 +221,27 @@ class BenefitsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final softPrimary = Theme.of(context).colorScheme.primary.withOpacity(0.12);
-    final softSecondary = isDark
-        ? Colors.white.withOpacity(0.06)
-        : Colors.black.withOpacity(0.04);
+    final softPrimary = AppUi.softPrimary(context);
+    final softSecondary = AppUi.softNeutral(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('المزايا'),
+        actions: [
+          IconButton(
+            onPressed: () => _openScreen(context, const ProfileScreen()),
+            icon: const Icon(Icons.person_outline),
+          ),
+        ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: AppUi.pagePadding,
         children: [
           _buildHeaderCard(context),
-          const SizedBox(height: 20),
-          const Text(
+          const SizedBox(height: AppUi.gapMd),
+          Text(
             'لماذا الترقية؟',
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppUi.sectionTitleStyle,
           ),
           const SizedBox(height: 14),
           _buildFeatureItem(
@@ -252,13 +259,10 @@ class BenefitsScreen extends StatelessWidget {
             text: 'ميزات إضافية لتحسين الحساب',
             color: softPrimary,
           ),
-          const SizedBox(height: 22),
-          const Text(
+          const SizedBox(height: AppUi.gapMd),
+          Text(
             'الباقات المتاحة',
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppUi.sectionTitleStyle,
           ),
           const SizedBox(height: 14),
           _buildPlanCard(
@@ -271,6 +275,7 @@ class BenefitsScreen extends StatelessWidget {
               'أولوية بسيطة داخل الاكتشاف',
             ],
             highlighted: false,
+            onPressed: () => _openScreen(context, const DiscoverScreen()),
           ),
           _buildPlanCard(
             title: 'Plus',
@@ -283,6 +288,7 @@ class BenefitsScreen extends StatelessWidget {
               'شارات ومؤشرات حساب أفضل',
             ],
             highlighted: true,
+            onPressed: () => _openScreen(context, const ProfileScreen()),
           ),
           _buildPlanCard(
             title: 'Premium',
@@ -295,6 +301,7 @@ class BenefitsScreen extends StatelessWidget {
               'تجربة حساب أكثر احترافية',
             ],
             highlighted: false,
+            onPressed: () => _openScreen(context, const ProfileScreen()),
           ),
           const SizedBox(height: 8),
           _buildInfoBox(context),
