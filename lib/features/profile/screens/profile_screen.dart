@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_ui.dart';
+import '../../benefits/screens/benefits_screen.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  void _openScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
 
   Widget _buildHeader(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
@@ -9,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: AppUi.brXl,
         gradient: LinearGradient(
           colors: [
             primary,
@@ -77,16 +87,11 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildInfoCard(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final soft = isDark
-        ? Colors.white.withOpacity(0.06)
-        : Colors.black.withOpacity(0.04);
-
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: soft,
-        borderRadius: BorderRadius.circular(22),
+        color: AppUi.softNeutral(context),
+        borderRadius: AppUi.brLg,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: AppUi.brMd,
       ),
       leading: Icon(icon),
       title: Text(
@@ -136,16 +141,11 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildOptionsSection(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardBg = isDark
-        ? Colors.white.withOpacity(0.04)
-        : Colors.black.withOpacity(0.025);
-
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(22),
+        color: AppUi.softNeutral(context),
+        borderRadius: AppUi.brLg,
       ),
       child: Column(
         children: [
@@ -159,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
             icon: Icons.workspace_premium_outlined,
             title: 'إدارة المزايا',
             subtitle: 'عرض الباقات والمزايا النشطة',
-            onTap: () {},
+            onTap: () => _openScreen(context, const BenefitsScreen()),
           ),
           _buildOptionTile(
             icon: Icons.palette_outlined,
@@ -185,13 +185,11 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildStatusBox(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.primary.withOpacity(0.12);
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: primary,
-        borderRadius: BorderRadius.circular(18),
+        color: AppUi.softPrimary(context),
+        borderRadius: AppUi.brMd,
       ),
       child: const Row(
         children: [
@@ -216,22 +214,25 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('حسابي'),
+        actions: [
+          IconButton(
+            onPressed: () => _openScreen(context, const BenefitsScreen()),
+            icon: const Icon(Icons.workspace_premium_outlined),
+          ),
+        ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: AppUi.pagePadding,
         children: [
           _buildHeader(context),
-          const SizedBox(height: 18),
+          const SizedBox(height: AppUi.gapMd),
           _buildStatusBox(context),
-          const SizedBox(height: 18),
+          const SizedBox(height: AppUi.gapMd),
           _buildInfoCard(context),
-          const SizedBox(height: 18),
-          const Text(
+          const SizedBox(height: AppUi.gapMd),
+          Text(
             'الإعدادات والخيارات',
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppUi.sectionTitleStyle,
           ),
           const SizedBox(height: 12),
           _buildOptionsSection(context),
@@ -256,7 +257,7 @@ class _ProfileStatItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.16),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppUi.brMd,
       ),
       child: Column(
         children: [
