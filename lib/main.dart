@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'app/app.dart';
-import 'features/shell/providers/navigation_provider.dart';
-import 'features/theme_mode/providers/theme_provider.dart';
+import 'core/navigation/main_navigation_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => NavigationProvider()),
-      ],
-      child: const ProjectXApp(),
-    ),
-  );
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Project X',
+      home: const MainNavigationScreen(),
+    );
+  }
 }
