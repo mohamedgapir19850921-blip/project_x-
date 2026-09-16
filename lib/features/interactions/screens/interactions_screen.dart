@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_ui.dart';
+import '../../discover/screens/discover_screen.dart';
+import '../../profile/screens/profile_screen.dart';
+
 class InteractionsScreen extends StatelessWidget {
   const InteractionsScreen({super.key});
+
+  void _openScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
 
   Widget _buildTopCard(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
@@ -9,7 +20,7 @@ class InteractionsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppUi.brXl,
         gradient: LinearGradient(
           colors: [
             primary,
@@ -54,7 +65,7 @@ class InteractionsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: AppUi.brMd,
         ),
         child: Column(
           children: [
@@ -93,7 +104,7 @@ class InteractionsScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppUi.brLg,
         color: avatarColor.withOpacity(0.08),
       ),
       child: ListTile(
@@ -149,42 +160,33 @@ class InteractionsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(title, style: AppUi.sectionTitleStyle),
         const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 13,
-          ),
-        ),
+        Text(subtitle, style: AppUi.sectionSubtitleStyle),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primarySoft = Theme.of(context).colorScheme.primary.withOpacity(0.12);
-    final neutralSoft = isDark
-        ? Colors.white.withOpacity(0.06)
-        : Colors.black.withOpacity(0.04);
+    final primarySoft = AppUi.softPrimary(context);
+    final neutralSoft = AppUi.softNeutral(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('التفاعلات'),
+        actions: [
+          IconButton(
+            onPressed: () => _openScreen(context, const ProfileScreen()),
+            icon: const Icon(Icons.person_outline),
+          ),
+        ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: AppUi.pagePadding,
         children: [
           _buildTopCard(context),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppUi.gapMd),
           Row(
             children: [
               _buildSummaryCard(
@@ -209,7 +211,7 @@ class InteractionsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppUi.gapLg),
           _buildSectionTitle(
             'أحدث التفاعلات',
             'آخر ما وصلك من رسائل واهتمامات',
@@ -246,6 +248,15 @@ class InteractionsScreen extends StatelessWidget {
             icon: Icons.remove_red_eye_outlined,
             avatarColor: Colors.orange,
             unread: false,
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 50,
+            child: ElevatedButton.icon(
+              onPressed: () => _openScreen(context, const DiscoverScreen()),
+              icon: const Icon(Icons.explore_outlined),
+              label: const Text('الذهاب إلى الاكتشاف'),
+            ),
           ),
         ],
       ),
