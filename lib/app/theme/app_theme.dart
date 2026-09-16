@@ -61,8 +61,8 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
-      fontFamily: AppTextStyles.fontFamily,
-      brightness: Brightness.dark,
+
+     brightness: Brightness.dark,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.darkBackground,
       appBarTheme: const AppBarTheme(
