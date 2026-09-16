@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/data/dummy_data.dart';
+import '../../../core/data/models/profile_option_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../benefits/screens/benefits_screen.dart';
 
@@ -117,9 +119,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildOptionTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
+    required ProfileOptionModel option,
     required VoidCallback onTap,
   }) {
     return ListTile(
@@ -127,20 +127,22 @@ class ProfileScreen extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppUi.brMd,
       ),
-      leading: Icon(icon),
+      leading: Icon(option.icon),
       title: Text(
-        title,
+        option.title,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
-      subtitle: Text(subtitle),
+      subtitle: Text(option.subtitle),
       trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 18),
       onTap: onTap,
     );
   }
 
   Widget _buildOptionsSection(BuildContext context) {
+    final options = DummyData.profileOptions;
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -148,38 +150,16 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: AppUi.brLg,
       ),
       child: Column(
-        children: [
-          _buildOptionTile(
-            icon: Icons.edit_outlined,
-            title: 'تعديل الملف الشخصي',
-            subtitle: 'تحديث البيانات الأساسية والنبذة',
-            onTap: () {},
-          ),
-          _buildOptionTile(
-            icon: Icons.workspace_premium_outlined,
-            title: 'إدارة المزايا',
-            subtitle: 'عرض الباقات والمزايا النشطة',
-            onTap: () => _openScreen(context, const BenefitsScreen()),
-          ),
-          _buildOptionTile(
-            icon: Icons.palette_outlined,
-            title: 'المظهر',
-            subtitle: 'التحكم في الثيم الفاتح والداكن',
-            onTap: () {},
-          ),
-          _buildOptionTile(
-            icon: Icons.security_outlined,
-            title: 'الخصوصية',
-            subtitle: 'إعدادات الأمان والخصوصية',
-            onTap: () {},
-          ),
-          _buildOptionTile(
-            icon: Icons.info_outline,
-            title: 'حول التطبيق',
-            subtitle: 'معلومات عن النسخة الحالية',
-            onTap: () {},
-          ),
-        ],
+        children: options.map((option) {
+          return _buildOptionTile(
+            option: option,
+            onTap: () {
+              if (option.title == 'إدارة المزايا') {
+                _openScreen(context, const BenefitsScreen());
+              }
+            },
+          );
+        }).toList(),
       ),
     );
   }
