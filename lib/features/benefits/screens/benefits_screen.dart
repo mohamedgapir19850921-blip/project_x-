@@ -5,6 +5,7 @@ import '../../../core/data/models/benefit_plan_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../discover/screens/discover_screen.dart';
 import '../../profile/screens/profile_screen.dart';
+import '../../subscription/subscription_guard.dart';
 
 class BenefitsScreen extends StatelessWidget {
   const BenefitsScreen({super.key});
@@ -14,6 +15,26 @@ class BenefitsScreen extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (_) => screen),
     );
+  }
+
+  Future<void> _handlePlanSelection(
+    BuildContext context,
+    BenefitPlanModel plan,
+  ) async {
+    final allowed = await SubscriptionGuard.checkAccess(context);
+    if (!allowed) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('تم اختيار باقة ${plan.title} بنجاح'),
+      ),
+    );
+
+    if (plan.title == 'Basic') {
+      _openScreen(context, const DiscoverScreen());
+    } else {
+      _openScreen(context, const ProfileScreen());
+    }
   }
 
   Widget _buildHeaderCard(BuildContext context) {
@@ -269,12 +290,8 @@ class BenefitsScreen extends StatelessWidget {
           ...plans.map(
             (plan) => _buildPlanCard(
               plan: plan,
-              onPressed: () {
-                if (plan.title == 'Basic') {
-                  _openScreen(context, const DiscoverScreen());
-                } else {
-                  _openScreen(context, const ProfileScreen());
-                }
+              onPressed: () async {
+                await _handlePlanSelection(context, plan);
               },
             ),
           ),
