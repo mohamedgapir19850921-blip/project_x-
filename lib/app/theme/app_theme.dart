@@ -10,15 +10,10 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       brightness: Brightness.light,
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      error: AppColors.error,
-      surface: AppColors.lightSurface,
     );
 
     return ThemeData(
       useMaterial3: true,
-      fontFamily: AppTextStyles.fontFamily,
       brightness: Brightness.light,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.lightBackground,
@@ -38,10 +33,8 @@ class AppTheme {
         showUnselectedLabels: true,
       ),
       textTheme: TextTheme(
-        headlineLarge:
-            AppTextStyles.headingLarge(AppColors.lightTextPrimary),
-        headlineMedium:
-            AppTextStyles.headingMedium(AppColors.lightTextPrimary),
+        headlineLarge: AppTextStyles.headingLarge(AppColors.lightTextPrimary),
+        headlineMedium: AppTextStyles.headingMedium(AppColors.lightTextPrimary),
         titleMedium: AppTextStyles.title(AppColors.lightTextPrimary),
         bodyMedium: AppTextStyles.body(AppColors.lightTextPrimary),
         bodySmall: AppTextStyles.label(AppColors.lightTextSecondary),
@@ -53,16 +46,11 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       brightness: Brightness.dark,
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      error: AppColors.error,
-      surface: AppColors.darkSurface,
     );
 
     return ThemeData(
       useMaterial3: true,
-
-     brightness: Brightness.dark,
+      brightness: Brightness.dark,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.darkBackground,
       appBarTheme: const AppBarTheme(
@@ -81,10 +69,8 @@ class AppTheme {
         showUnselectedLabels: true,
       ),
       textTheme: TextTheme(
-        headlineLarge:
-            AppTextStyles.headingLarge(AppColors.darkTextPrimary),
-        headlineMedium:
-            AppTextStyles.headingMedium(AppColors.darkTextPrimary),
+        headlineLarge: AppTextStyles.headingLarge(AppColors.darkTextPrimary),
+        headlineMedium: AppTextStyles.headingMedium(AppColors.darkTextPrimary),
         titleMedium: AppTextStyles.title(AppColors.darkTextPrimary),
         bodyMedium: AppTextStyles.body(AppColors.darkTextPrimary),
         bodySmall: AppTextStyles.label(AppColors.darkTextSecondary),
