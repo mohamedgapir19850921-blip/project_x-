@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/app_ui.dart';
+import '../../benefits/screens/benefits_screen.dart';
+import '../../discover/screens/discover_screen.dart';
+import '../../interactions/screens/interactions_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,11 +15,8 @@ class HomeScreen extends StatelessWidget {
     required Color iconBg,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(22),
-      ),
+      padding: AppUi.sectionPadding,
+      decoration: AppUi.cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
@@ -48,31 +49,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickAction({
+  Widget _buildQuickAction(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required Color bgColor,
+    required VoidCallback onTap,
   }) {
     return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, size: 26),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: AppUi.brMd,
+          ),
+          child: Column(
+            children: [
+              Icon(icon, size: 26),
+              const SizedBox(height: 8),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -92,7 +98,7 @@ class HomeScreen extends StatelessWidget {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
-        borderRadius: BorderRadius.circular(26),
+        borderRadius: AppUi.brXl,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,21 +147,9 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(title, style: AppUi.sectionTitleStyle),
         const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Colors.grey,
-          ),
-        ),
+        Text(subtitle, style: AppUi.sectionSubtitleStyle),
       ],
     );
   }
@@ -171,7 +165,7 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: AppUi.brMd,
       ),
       child: Row(
         children: [
@@ -200,15 +194,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  void _openScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Theme.of(context).colorScheme.primary;
-
-    final softPrimary = primaryColor.withOpacity(0.12);
-    final softSecondary = isDark
-        ? Colors.white.withOpacity(0.06)
-        : Colors.black.withOpacity(0.04);
+    final softPrimary = AppUi.softPrimary(context);
+    final softSecondary = AppUi.softNeutral(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -221,10 +217,10 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: AppUi.pagePadding,
         children: [
           _buildHighlightCard(context),
-          const SizedBox(height: 22),
+          const SizedBox(height: AppUi.gapLg),
           _buildSectionTitle(
             'نظرة سريعة',
             'ملخص لحسابك ونشاطك الحالي داخل التطبيق',
@@ -253,7 +249,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icons.auto_graph_outlined,
             iconBg: softPrimary,
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: AppUi.gapLg),
           _buildSectionTitle(
             'إجراءات سريعة',
             'الوصول السريع لأهم الأقسام',
@@ -262,25 +258,31 @@ class HomeScreen extends StatelessWidget {
           Row(
             children: [
               _buildQuickAction(
+                context,
                 icon: Icons.explore_outlined,
                 label: 'اكتشف الآن',
                 bgColor: softPrimary,
+                onTap: () => _openScreen(context, const DiscoverScreen()),
               ),
               const SizedBox(width: 12),
               _buildQuickAction(
+                context,
                 icon: Icons.chat_bubble_outline,
                 label: 'التفاعلات',
                 bgColor: softSecondary,
+                onTap: () => _openScreen(context, const InteractionsScreen()),
               ),
               const SizedBox(width: 12),
               _buildQuickAction(
+                context,
                 icon: Icons.workspace_premium_outlined,
                 label: 'المزايا',
                 bgColor: softPrimary,
+                onTap: () => _openScreen(context, const BenefitsScreen()),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppUi.gapLg),
           _buildSectionTitle(
             'آخر النشاطات',
             'تحديثات ومؤشرات مرتبطة بحسابك',
