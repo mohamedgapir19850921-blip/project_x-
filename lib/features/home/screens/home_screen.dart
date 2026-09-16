@@ -1,198 +1,15 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/data/dummy_data.dart';
+import '../../../core/data/models/home_stat_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../benefits/screens/benefits_screen.dart';
 import '../../discover/screens/discover_screen.dart';
 import '../../interactions/screens/interactions_screen.dart';
+import '../../profile/screens/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  Widget _buildStatCard(
-    BuildContext context, {
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color iconBg,
-  }) {
-    return Container(
-      padding: AppUi.sectionPadding,
-      decoration: AppUi.cardDecoration(context),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: iconBg,
-            child: Icon(
-              icon,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickAction(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required Color bgColor,
-    required VoidCallback onTap,
-  }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: AppUi.brMd,
-          ),
-          child: Column(
-            children: [
-              Icon(icon, size: 26),
-              const SizedBox(height: 8),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHighlightCard(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            colorScheme.primary,
-            colorScheme.primary.withOpacity(0.75),
-          ],
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-        ),
-        borderRadius: AppUi.brXl,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'مرحبًا بك في Project X',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'اكتشف أشخاصًا جدد، وطوّر حضورك داخل التطبيق، واستفد من مزايا ذكية لتجربة أكثر تميزًا.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.18),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: const Text(
-              'حسابك مفعل • جاهز للاستخدام',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title, String subtitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: AppUi.sectionTitleStyle),
-        const SizedBox(height: 4),
-        Text(subtitle, style: AppUi.sectionSubtitleStyle),
-      ],
-    );
-  }
-
-  Widget _buildActivityItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: AppUi.brMd,
-      ),
-      child: Row(
-        children: [
-          Icon(icon),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 13),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   void _openScreen(BuildContext context, Widget screen) {
     Navigator.push(
@@ -201,111 +18,211 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildWelcomeCard(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: AppUi.brXl,
+        gradient: LinearGradient(
+          colors: [
+            primary,
+            primary.withOpacity(0.75),
+          ],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'مرحبًا بك في Project X',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'ابدأ رحلتك، استكشف المستخدمين، تابع تفاعلاتك، وطوّر حسابك من صفحة المزايا.',
+            style: TextStyle(
+              color: Colors.white,
+              height: 1.6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard(HomeStatModel stat) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+        decoration: BoxDecoration(
+          color: stat.color.withOpacity(0.12),
+          borderRadius: AppUi.brMd,
+        ),
+        child: Column(
+          children: [
+            Icon(stat.icon, color: stat.color, size: 28),
+            const SizedBox(height: 10),
+            Text(
+              stat.value,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              stat.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickAction({
+    required BuildContext context,
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.10),
+        borderRadius: AppUi.brLg,
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: CircleAvatar(
+          backgroundColor: color.withOpacity(0.18),
+          child: Icon(icon, color: color),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(subtitle),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 18),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  Widget _buildTipBox(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppUi.softNeutral(context),
+        borderRadius: AppUi.brMd,
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.lightbulb_outline),
+          SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'نصيحة: كلما أكملت ملفك الشخصي وحافظت على التفاعل، زادت جودة الاقتراحات التي تظهر لك.',
+              style: TextStyle(
+                height: 1.5,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final softPrimary = AppUi.softPrimary(context);
-    final softSecondary = AppUi.softNeutral(context);
+    final stats = DummyData.homeStats;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('الرئيسية'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_rounded),
+            onPressed: () => _openScreen(context, const ProfileScreen()),
+            icon: const Icon(Icons.person_outline),
           ),
         ],
       ),
       body: ListView(
         padding: AppUi.pagePadding,
         children: [
-          _buildHighlightCard(context),
-          const SizedBox(height: AppUi.gapLg),
-          _buildSectionTitle(
-            'نظرة سريعة',
-            'ملخص لحسابك ونشاطك الحالي داخل التطبيق',
-          ),
-          const SizedBox(height: 14),
-          _buildStatCard(
-            context,
-            title: 'مستوى الحساب',
-            value: 'Lv. 4',
-            icon: Icons.trending_up_outlined,
-            iconBg: softPrimary,
+          _buildWelcomeCard(context),
+          const SizedBox(height: AppUi.gapMd),
+          Text(
+            'إحصائياتك السريعة',
+            style: AppUi.sectionTitleStyle,
           ),
           const SizedBox(height: 12),
-          _buildStatCard(
-            context,
-            title: 'نقاطك الحالية',
-            value: '120',
-            icon: Icons.stars_outlined,
-            iconBg: softSecondary,
-          ),
-          const SizedBox(height: 12),
-          _buildStatCard(
-            context,
-            title: 'نسبة التفاعل',
-            value: '68%',
-            icon: Icons.auto_graph_outlined,
-            iconBg: softPrimary,
-          ),
-          const SizedBox(height: AppUi.gapLg),
-          _buildSectionTitle(
-            'إجراءات سريعة',
-            'الوصول السريع لأهم الأقسام',
-          ),
-          const SizedBox(height: 14),
           Row(
             children: [
-              _buildQuickAction(
-                context,
-                icon: Icons.explore_outlined,
-                label: 'اكتشف الآن',
-                bgColor: softPrimary,
-                onTap: () => _openScreen(context, const DiscoverScreen()),
-              ),
-              const SizedBox(width: 12),
-              _buildQuickAction(
-                context,
-                icon: Icons.chat_bubble_outline,
-                label: 'التفاعلات',
-                bgColor: softSecondary,
-                onTap: () => _openScreen(context, const InteractionsScreen()),
-              ),
-              const SizedBox(width: 12),
-              _buildQuickAction(
-                context,
-                icon: Icons.workspace_premium_outlined,
-                label: 'المزايا',
-                bgColor: softPrimary,
-                onTap: () => _openScreen(context, const BenefitsScreen()),
-              ),
+              ...stats.asMap().entries.map((entry) {
+                final index = entry.key;
+                final stat = entry.value;
+
+                return Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: index == stats.length - 1 ? 0 : 12,
+                    ),
+                    child: _buildStatCard(stat),
+                  ),
+                );
+              }),
             ],
           ),
           const SizedBox(height: AppUi.gapLg),
-          _buildSectionTitle(
-            'آخر النشاطات',
-            'تحديثات ومؤشرات مرتبطة بحسابك',
+          Text(
+            'الوصول السريع',
+            style: AppUi.sectionTitleStyle,
           ),
-          const SizedBox(height: 14),
-          _buildActivityItem(
+          const SizedBox(height: 12),
+          _buildQuickAction(
+            context: context,
+            icon: Icons.explore_outlined,
+            title: 'اكتشف المستخدمين',
+            subtitle: 'تصفح الاقتراحات والملفات المتوافقة معك',
+            color: const Color(0xFF6C63FF),
+            onTap: () => _openScreen(context, const DiscoverScreen()),
+          ),
+          _buildQuickAction(
+            context: context,
             icon: Icons.favorite_border,
-            title: 'ظهور جديد في الاكتشاف',
-            subtitle: 'تم تحسين ظهور حسابك في نتائج الاكتشاف.',
-            color: softPrimary,
+            title: 'التفاعلات',
+            subtitle: 'راجع الإعجابات والرسائل والطلبات',
+            color: const Color(0xFFFF6584),
+            onTap: () => _openScreen(context, const InteractionsScreen()),
           ),
-          _buildActivityItem(
-            icon: Icons.local_fire_department_outlined,
-            title: 'نشاط جيد هذا الأسبوع',
-            subtitle: 'معدل التفاعل ارتفع مقارنة بالأسبوع الماضي.',
-            color: softSecondary,
-          ),
-          _buildActivityItem(
+          _buildQuickAction(
+            context: context,
             icon: Icons.workspace_premium_outlined,
-            title: 'ميزة مقترحة لك',
-            subtitle: 'جرّب إحدى الباقات لزيادة الوصول والظهور.',
-            color: softPrimary,
+            title: 'المزايا',
+            subtitle: 'طوّر تجربتك داخل التطبيق',
+            color: const Color(0xFF2BB6A8),
+            onTap: () => _openScreen(context, const BenefitsScreen()),
           ),
+          const SizedBox(height: AppUi.gapMd),
+          _buildTipBox(context),
         ],
       ),
     );
