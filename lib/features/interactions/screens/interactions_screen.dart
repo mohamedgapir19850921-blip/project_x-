@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/data/dummy_data.dart';
+import '../../../core/data/models/interaction_model.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../discover/screens/discover_screen.dart';
 import '../../profile/screens/profile_screen.dart';
@@ -93,37 +95,30 @@ class InteractionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInteractionItem({
-    required String name,
-    required String subtitle,
-    required String time,
-    required IconData icon,
-    required Color avatarColor,
-    required bool unread,
-  }) {
+  Widget _buildInteractionItem(InteractionModel item) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         borderRadius: AppUi.brLg,
-        color: avatarColor.withOpacity(0.08),
+        color: item.avatarColor.withOpacity(0.08),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         leading: CircleAvatar(
           radius: 25,
-          backgroundColor: avatarColor.withOpacity(0.22),
-          child: Icon(icon, color: avatarColor),
+          backgroundColor: item.avatarColor.withOpacity(0.22),
+          child: Icon(item.icon, color: item.avatarColor),
         ),
         title: Row(
           children: [
             Expanded(
               child: Text(
-                name,
+                item.name,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Text(
-              time,
+              item.time,
               style: const TextStyle(
                 fontSize: 12,
                 color: Colors.grey,
@@ -134,11 +129,11 @@ class InteractionsScreen extends StatelessWidget {
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 6),
           child: Text(
-            subtitle,
+            item.subtitle,
             style: const TextStyle(height: 1.4),
           ),
         ),
-        trailing: unread
+        trailing: item.unread
             ? Container(
                 width: 10,
                 height: 10,
@@ -169,6 +164,7 @@ class InteractionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final items = DummyData.interactions;
     final primarySoft = AppUi.softPrimary(context);
     final neutralSoft = AppUi.softNeutral(context);
 
@@ -217,38 +213,7 @@ class InteractionsScreen extends StatelessWidget {
             'آخر ما وصلك من رسائل واهتمامات',
           ),
           const SizedBox(height: 14),
-          _buildInteractionItem(
-            name: 'سارة',
-            subtitle: 'أبدت إعجابًا بملفك الشخصي.',
-            time: 'منذ 5 د',
-            icon: Icons.favorite,
-            avatarColor: Colors.pink,
-            unread: true,
-          ),
-          _buildInteractionItem(
-            name: 'ليان',
-            subtitle: 'أرسلت لك رسالة جديدة: مرحبًا، كيف حالك؟',
-            time: 'منذ 12 د',
-            icon: Icons.chat_bubble,
-            avatarColor: const Color(0xFF6C63FF),
-            unread: true,
-          ),
-          _buildInteractionItem(
-            name: 'نور',
-            subtitle: 'تم قبول التفاعل بينكما ويمكنكم بدء المحادثة.',
-            time: 'منذ 1 س',
-            icon: Icons.check_circle,
-            avatarColor: Colors.teal,
-            unread: false,
-          ),
-          _buildInteractionItem(
-            name: 'ريم',
-            subtitle: 'زارت ملفك الشخصي أكثر من مرة.',
-            time: 'اليوم',
-            icon: Icons.remove_red_eye_outlined,
-            avatarColor: Colors.orange,
-            unread: false,
-          ),
+          ...items.map(_buildInteractionItem),
           const SizedBox(height: 8),
           SizedBox(
             height: 50,
