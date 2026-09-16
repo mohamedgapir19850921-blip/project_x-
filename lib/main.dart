@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login_screen.dart';
 
 void main() {
@@ -15,7 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AI Seek App',
-      theme: AppTheme.lightTheme,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
       home: const LoginScreen(),
     );
   }
