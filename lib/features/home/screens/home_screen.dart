@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../../../core/data/dummy_data.dart';
 import '../../../core/data/models/home_stat_model.dart';
+import '../../../core/navigation/navigation_controller.dart';
 import '../../../core/theme/app_ui.dart';
 import '../../benefits/screens/benefits_screen.dart';
-import '../../discover/screens/discover_screen.dart';
-import '../../interactions/screens/interactions_screen.dart';
-import '../../profile/screens/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void _openScreen(BuildContext context, Widget screen) {
+  void _openBenefits(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => screen),
+      MaterialPageRoute(builder: (_) => const BenefitsScreen()),
     );
+  }
+
+  void _goToTab(int index) {
+    NavigationController.changeTab(index);
   }
 
   Widget _buildWelcomeCard(BuildContext context) {
@@ -59,40 +61,37 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildStatCard(HomeStatModel stat) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-        decoration: BoxDecoration(
-          color: stat.color.withOpacity(0.12),
-          borderRadius: AppUi.brMd,
-        ),
-        child: Column(
-          children: [
-            Icon(stat.icon, color: stat.color, size: 28),
-            const SizedBox(height: 10),
-            Text(
-              stat.value,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+      decoration: BoxDecoration(
+        color: stat.color.withOpacity(0.12),
+        borderRadius: AppUi.brMd,
+      ),
+      child: Column(
+        children: [
+          Icon(stat.icon, color: stat.color, size: 28),
+          const SizedBox(height: 10),
+          Text(
+            stat.value,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 4),
-            Text(
-              stat.title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            stat.title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildQuickAction({
-    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
@@ -159,7 +158,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('الرئيسية'),
         actions: [
           IconButton(
-            onPressed: () => _openScreen(context, const ProfileScreen()),
+            onPressed: () => _goToTab(3),
             icon: const Icon(Icons.person_outline),
           ),
         ],
@@ -198,28 +197,25 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _buildQuickAction(
-            context: context,
             icon: Icons.explore_outlined,
             title: 'اكتشف المستخدمين',
             subtitle: 'تصفح الاقتراحات والملفات المتوافقة معك',
             color: const Color(0xFF6C63FF),
-            onTap: () => _openScreen(context, const DiscoverScreen()),
+            onTap: () => _goToTab(1),
           ),
           _buildQuickAction(
-            context: context,
             icon: Icons.favorite_border,
             title: 'التفاعلات',
             subtitle: 'راجع الإعجابات والرسائل والطلبات',
             color: const Color(0xFFFF6584),
-            onTap: () => _openScreen(context, const InteractionsScreen()),
+            onTap: () => _goToTab(2),
           ),
           _buildQuickAction(
-            context: context,
             icon: Icons.workspace_premium_outlined,
             title: 'المزايا',
             subtitle: 'طوّر تجربتك داخل التطبيق',
             color: const Color(0xFF2BB6A8),
-            onTap: () => _openScreen(context, const BenefitsScreen()),
+            onTap: () => _openBenefits(context),
           ),
           const SizedBox(height: AppUi.gapMd),
           _buildTipBox(context),
