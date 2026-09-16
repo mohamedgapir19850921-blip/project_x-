@@ -21,7 +21,10 @@ class HomeScreen extends StatelessWidget {
           CircleAvatar(
             radius: 24,
             backgroundColor: iconBg,
-            child: Icon(icon, color: Theme.of(context).colorScheme.primary),
+            child: Icon(
+              icon,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -104,7 +107,7 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Text(
-            'اكتشف أشخاصًا جدد، طوّر حضورك داخل التطبيق، واستفد من مزايا ذكية مصممة لتجربة أكثر تميزًا.',
+            'اكتشف أشخاصًا جدد، وطوّر حضورك داخل التطبيق، واستفد من مزايا ذكية لتجربة أكثر تميزًا.',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
@@ -113,7 +116,10 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 10,
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.18),
               borderRadius: BorderRadius.circular(14),
@@ -125,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -177,7 +183,9 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -195,8 +203,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = Theme.of(context).colorScheme.primary;
 
-    final softPrimary = Theme.of(context).colorScheme.primary.withOpacity(0.12);
+    final softPrimary = primaryColor.withOpacity(0.12);
     final softSecondary = isDark
         ? Colors.white.withOpacity(0.06)
         : Colors.black.withOpacity(0.04);
@@ -216,13 +225,11 @@ class HomeScreen extends StatelessWidget {
         children: [
           _buildHighlightCard(context),
           const SizedBox(height: 22),
-
           _buildSectionTitle(
             'نظرة سريعة',
             'ملخص لحسابك ونشاطك الحالي داخل التطبيق',
           ),
           const SizedBox(height: 14),
-
           _buildStatCard(
             context,
             title: 'مستوى الحساب',
@@ -247,13 +254,11 @@ class HomeScreen extends StatelessWidget {
             iconBg: softPrimary,
           ),
           const SizedBox(height: 22),
-
           _buildSectionTitle(
             'إجراءات سريعة',
             'الوصول السريع لأهم الأقسام',
           ),
           const SizedBox(height: 14),
-
           Row(
             children: [
               _buildQuickAction(
@@ -276,11 +281,31 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-
           _buildSectionTitle(
             'آخر النشاطات',
             'تحديثات ومؤشرات مرتبطة بحسابك',
           ),
           const SizedBox(height: 14),
-
-          _buildActivity
+          _buildActivityItem(
+            icon: Icons.favorite_border,
+            title: 'ظهور جديد في الاكتشاف',
+            subtitle: 'تم تحسين ظهور حسابك في نتائج الاكتشاف.',
+            color: softPrimary,
+          ),
+          _buildActivityItem(
+            icon: Icons.local_fire_department_outlined,
+            title: 'نشاط جيد هذا الأسبوع',
+            subtitle: 'معدل التفاعل ارتفع مقارنة بالأسبوع الماضي.',
+            color: softSecondary,
+          ),
+          _buildActivityItem(
+            icon: Icons.workspace_premium_outlined,
+            title: 'ميزة مقترحة لك',
+            subtitle: 'جرّب إحدى الباقات لزيادة الوصول والظهور.',
+            color: softPrimary,
+          ),
+        ],
+      ),
+    );
+  }
+}
