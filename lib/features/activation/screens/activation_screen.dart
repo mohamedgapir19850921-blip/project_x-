@@ -37,7 +37,7 @@ class ActivationScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: colorScheme.primary.withValues(alpha: 0.08),
+                color: colorScheme.primary.withOpacity(0.08),
               ),
               child: const Column(
                 children: [
