@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_ui.dart';
+import '../../benefits/screens/benefits_screen.dart';
+import '../../interactions/screens/interactions_screen.dart';
+
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
+
+  void _openScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
 
   Widget _buildFilterChip({
     required String label,
@@ -43,7 +54,7 @@ class DiscoverScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: AppUi.brXl,
         gradient: LinearGradient(
           colors: gradientColors,
           begin: Alignment.topCenter,
@@ -63,7 +74,7 @@ class DiscoverScreen extends StatelessWidget {
         height: 440,
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: AppUi.brXl,
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
@@ -139,7 +150,7 @@ class DiscoverScreen extends StatelessWidget {
                     height: 54,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.14),
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: AppUi.brMd,
                     ),
                     child: IconButton(
                       onPressed: () {},
@@ -157,10 +168,13 @@ class DiscoverScreen extends StatelessWidget {
                     height: 54,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.14),
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: AppUi.brMd,
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => _openScreen(
+                        context,
+                        const BenefitsScreen(),
+                      ),
                       icon: const Icon(
                         Icons.star_rounded,
                         color: Colors.white,
@@ -176,10 +190,13 @@ class DiscoverScreen extends StatelessWidget {
                     height: 54,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: AppUi.brMd,
                     ),
                     child: TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => _openScreen(
+                        context,
+                        const InteractionsScreen(),
+                      ),
                       icon: const Icon(Icons.favorite, color: Colors.red),
                       label: const Text(
                         'إعجاب',
@@ -205,7 +222,7 @@ class DiscoverScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: AppUi.brLg,
         gradient: LinearGradient(
           colors: [
             primary,
@@ -246,16 +263,16 @@ class DiscoverScreen extends StatelessWidget {
         title: const Text('اكتشف'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.tune_rounded),
+            onPressed: () => _openScreen(context, const BenefitsScreen()),
+            icon: const Icon(Icons.workspace_premium_outlined),
           ),
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: AppUi.pagePadding,
         children: [
           _buildTopBanner(context),
-          const SizedBox(height: 18),
+          const SizedBox(height: AppUi.gapMd),
           const Text(
             'الفلاتر السريعة',
             style: TextStyle(
@@ -275,7 +292,7 @@ class DiscoverScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppUi.gapMd),
           _buildProfileCard(
             context,
             name: 'سارة',
