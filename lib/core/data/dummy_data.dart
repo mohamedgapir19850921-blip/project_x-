@@ -1,9 +1,33 @@
 import 'package:flutter/material.dart';
 
+import 'models/benefit_plan_model.dart';
 import 'models/discover_profile_model.dart';
+import 'models/home_stat_model.dart';
 import 'models/interaction_model.dart';
+import 'models/profile_option_model.dart';
 
 class DummyData {
+  static const List<HomeStatModel> homeStats = [
+    HomeStatModel(
+      title: 'النقاط',
+      value: '120',
+      icon: Icons.stars_rounded,
+      color: Color(0xFF6C63FF),
+    ),
+    HomeStatModel(
+      title: 'التفاعل',
+      value: '68%',
+      icon: Icons.favorite_rounded,
+      color: Color(0xFFFF6584),
+    ),
+    HomeStatModel(
+      title: 'المستوى',
+      value: '4',
+      icon: Icons.bar_chart_rounded,
+      color: Color(0xFF2BB6A8),
+    ),
+  ];
+
   static const List<DiscoverProfileModel> discoverProfiles = [
     DiscoverProfileModel(
       name: 'سارة',
@@ -72,6 +96,72 @@ class DummyData {
       icon: Icons.remove_red_eye_outlined,
       avatarColor: Colors.orange,
       unread: false,
+    ),
+  ];
+
+  static const List<BenefitPlanModel> benefitPlans = [
+    BenefitPlanModel(
+      title: 'Basic',
+      price: '49 EGP',
+      subtitle: 'للاستخدام الخفيف والبداية',
+      features: [
+        'ظهور محسّن لفترة محدودة',
+        'بعض أدوات التفاعل الإضافية',
+        'أولوية بسيطة داخل الاكتشاف',
+      ],
+      highlighted: false,
+    ),
+    BenefitPlanModel(
+      title: 'Plus',
+      price: '99 EGP',
+      subtitle: 'أفضل توازن بين السعر والمزايا',
+      features: [
+        'ظهور أقوى داخل الاكتشاف',
+        'مزايا تفاعل محسّنة',
+        'أولوية أفضل في الوصول',
+        'شارات ومؤشرات حساب أفضل',
+      ],
+      highlighted: true,
+    ),
+    BenefitPlanModel(
+      title: 'Premium',
+      price: '149 EGP',
+      subtitle: 'أعلى تجربة متاحة داخل التطبيق',
+      features: [
+        'أقوى ظهور متاح',
+        'أفضلية كاملة في الاكتشاف',
+        'أدوات مميزة إضافية',
+        'تجربة حساب أكثر احترافية',
+      ],
+      highlighted: false,
+    ),
+  ];
+
+  static const List<ProfileOptionModel> profileOptions = [
+    ProfileOptionModel(
+      icon: Icons.edit_outlined,
+      title: 'تعديل الملف الشخصي',
+      subtitle: 'تحديث البيانات الأساسية والنبذة',
+    ),
+    ProfileOptionModel(
+      icon: Icons.workspace_premium_outlined,
+      title: 'إدارة المزايا',
+      subtitle: 'عرض الباقات والمزايا النشطة',
+    ),
+    ProfileOptionModel(
+      icon: Icons.palette_outlined,
+      title: 'المظهر',
+      subtitle: 'التحكم في الثيم الفاتح والداكن',
+    ),
+    ProfileOptionModel(
+      icon: Icons.security_outlined,
+      title: 'الخصوصية',
+      subtitle: 'إعدادات الأمان والخصوصية',
+    ),
+    ProfileOptionModel(
+      icon: Icons.info_outline,
+      title: 'حول التطبيق',
+      subtitle: 'معلومات عن النسخة الحالية',
     ),
   ];
 }
