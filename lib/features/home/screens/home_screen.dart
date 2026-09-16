@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: colorScheme.primary.withValues(alpha: 0.12),
+            backgroundColor: colorScheme.primary.withOpacity(0.12),
             child: Icon(icon, color: colorScheme.primary),
           ),
           const SizedBox(width: 12),
